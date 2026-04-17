@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tafsir/config/loading.dart';
 import 'package:tafsir/design/design.dart';
-
 import 'package:tafsir/todb.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
