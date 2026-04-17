@@ -186,9 +186,7 @@ class Surah extends ChangeNotifier {
   String? nama;
   int? noSurah;
 
-  // Surah({this.surah, this.surahs = const [], this.nama, this.noSurah});
   Surah({this.surah, this.surahs, this.nama, this.noSurah, this.filteredList});
-  // Surah({this.surah, this.surahs, this.nama, this.noSurah});
 
   // Fungsi untuk menukar Map dari API kepada Objek Surah
   factory Surah.fromMap(Map<String, dynamic> map) {
@@ -207,65 +205,13 @@ class Surah extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void assignData(String inputText) {
-  //   try {
-  //     if (inputText.isEmpty) {
-  //       surahs = List.from(_allData);
-  //     } else {
-  //       final searchInt = int.tryParse(inputText);
-  //       surahs = _allData.where((val) {
-  //         final matchnama =
-  //             val.nama?.toLowerCase().contains(inputText.toLowerCase()) ??
-  //             false;
-  //         final matchNo = searchInt != null && (val.noSurah ?? 0) >= searchInt;
-  //         return matchnama || matchNo;
-  //       }).toList();
-  //     }
-  //     notifyListeners();
-  //   } catch (e) {
-  //     debugPrint("Database initialization error: e");
-  //   }
-  // }
-
-  // void assignData(String inputText) async {
-  //   //print('surahs:  ${surahs?.length}');
-  //   filteredList = surahs!
-  //       .map((val) {
-  //         // return Surah(nama: val['nama'] ?? '', noSurah: val['noSurah']);
-  //         return Surah(nama: val["nama"] ?? '', noSurah: val["noSurah"]);
-  //       })
-  //       .where(
-  //         // (val) =>
-  //         (val) =>
-  //             val.nama!.toLowerCase().contains(inputText.toLowerCase()) ||
-  //             (val.noSurah != null &&
-  //                 // val.noSurah! >= (int.tryParse(inputText) ?? null)),
-  //                 val.noSurah! >= (int.tryParse(inputText) ?? 0)),
-  //       )
-  //       .toList();
-
-  //   print('filteredList!.length:  ${filteredList!.length}');
-
-  //   notifyListeners();
-  // }
-
   void assignData(String inputText) async {
-    //print('surahs:  ${surahs?.length}');
 
     if (surahs == null) return;
 
     final searchInt = int.tryParse(inputText);
 
-    filteredList = surahs!
-        // .map((val) {
-        //   return Surah(
-        //     nama: val["nama"] ?? '',
-        //     noSurah: val["noSurah"] is int
-        //         ? val["noSurah"]
-        //         : int.tryParse(val["noSurah"].toString()),
-        //   );
-        // })
-        .map((val) {
+    filteredList = surahs!.map((val) {
           return Surah(nama: val["nama"] ?? '', noSurah: val["noSurah"]);
         })
         .where((val) {
@@ -277,7 +223,6 @@ class Surah extends ChangeNotifier {
               searchInt != null &&
               val.noSurah != null &&
               val.noSurah! >= searchInt;
-
           return matchnama || matchNo;
         })
         .toList();
@@ -286,18 +231,4 @@ class Surah extends ChangeNotifier {
 
     notifyListeners();
   }
-}
-
-Function textDelay(
-  Function(String) onChanged, {
-  Duration delay = const Duration(milliseconds: 500),
-}) {
-  Timer? _debounce;
-
-  return (String value) {
-    if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(delay, () {
-      onChanged(value);
-    });
-  };
 }
